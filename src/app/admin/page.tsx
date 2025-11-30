@@ -6314,6 +6314,510 @@ function AdminPageClient() {
               isExpanded={expandedTabs.tvboxConfig}
               onToggle={() => toggleTab('tvboxConfig')}
             >
+<<<<<<< HEAD
+              <div className='space-y-4 p-4'>
+                {/* 成人内容过滤提示卡片 */}
+                <div className='bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg p-4 border border-purple-200 dark:border-purple-700'>
+                  <div className='flex items-start space-x-3'>
+                    <div className='flex-shrink-0'>
+                      <div className='w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center'>
+                        <span className='text-white text-xl'>🔒</span>
+                      </div>
+                    </div>
+                    <div className='flex-1'>
+                      <h4 className='text-sm font-semibold text-purple-900 dark:text-purple-100 mb-2'>
+                        💡 成人内容过滤功能
+                      </h4>
+                      <p className='text-xs text-purple-800 dark:text-purple-200 mb-3'>
+                        支持通过 URL 参数灵活控制成人内容过滤，无需修改配置！
+                      </p>
+
+                      {/* 快速示例 */}
+                      <div className='space-y-2 mb-3'>
+                        <div className='flex items-center space-x-2'>
+                          <span className='text-xs font-medium text-purple-700 dark:text-purple-300'>
+                            🏠 家庭模式：
+                          </span>
+                          <code className='text-xs bg-white dark:bg-gray-800 px-2 py-1 rounded border border-purple-200 dark:border-purple-600 text-purple-600 dark:text-purple-300'>
+                            /api/tvbox/config
+                          </code>
+                        </div>
+                        <div className='flex items-center space-x-2'>
+                          <span className='text-xs font-medium text-purple-700 dark:text-purple-300'>
+                            🔓 完整模式：
+                          </span>
+                          <code className='text-xs bg-white dark:bg-gray-800 px-2 py-1 rounded border border-purple-200 dark:border-purple-600 text-purple-600 dark:text-purple-300'>
+                            /api/tvbox/config?filter=off
+                          </code>
+                        </div>
+                      </div>
+
+                      {/* 查看详细指南按钮 */}
+                      <div className='flex items-center space-x-2'>
+                        <a
+                          href='https://github.com/Decohererk/DecoTV/blob/main/docs/%E6%88%90%E4%BA%BA%E5%86%85%E5%AE%B9%E8%BF%87%E6%BB%A4%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.md'
+                          target='_blank'
+                          rel='noopener noreferrer'
+                          className='inline-flex items-center space-x-1 px-3 py-1.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-xs font-medium rounded-md transition-all transform hover:scale-105 shadow-sm'
+                        >
+                          <span>📖</span>
+                          <span>查看完整指南</span>
+                        </a>
+                        <span className='text-xs text-purple-600 dark:text-purple-400'>
+                          适用于 OrionTV 和 TVBox
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className='text-sm text-gray-600 dark:text-gray-300'>
+                  TVBox 订阅地址已为你生成，支持标准 TVBox/猫影视格式。可在
+                  TVBox、猫影视、EasyBox 等应用中添加为订阅源：
+                </div>
+
+                {/* 格式选择 */}
+                <div className='space-y-2'>
+                  <label className='block text-sm font-medium text-gray-700 dark:text-gray-300'>
+                    输出格式：
+                  </label>
+                  <div className='flex space-x-4'>
+                    <label className='flex items-center'>
+                      <input
+                        type='radio'
+                        name='tvboxFormat'
+                        value='json'
+                        checked={tvboxFormat === 'json'}
+                        onChange={(e) =>
+                          setTvboxFormat(e.target.value as 'json' | 'base64')
+                        }
+                        className='mr-2 text-blue-600 focus:ring-blue-500'
+                      />
+                      <span className='text-sm text-gray-700 dark:text-gray-300'>
+                        JSON 格式
+                      </span>
+                    </label>
+                    <label className='flex items-center'>
+                      <input
+                        type='radio'
+                        name='tvboxFormat'
+                        value='base64'
+                        checked={tvboxFormat === 'base64'}
+                        onChange={(e) =>
+                          setTvboxFormat(e.target.value as 'json' | 'base64')
+                        }
+                        className='mr-2 text-blue-600 focus:ring-blue-500'
+                      />
+                      <span className='text-sm text-gray-700 dark:text-gray-300'>
+                        Base64 格式
+                      </span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* 配置模式选择 */}
+                <div className='space-y-2'>
+                  <label className='block text-sm font-medium text-gray-700 dark:text-gray-300'>
+                    配置模式：
+                  </label>
+                  <div className='space-y-2'>
+                    <label className='flex items-start space-x-3'>
+                      <input
+                        type='radio'
+                        name='tvboxMode'
+                        value='standard'
+                        checked={tvboxMode === 'standard'}
+                        onChange={(e) =>
+                          setTvboxMode(
+                            e.target.value as
+                              | 'standard'
+                              | 'safe'
+                              | 'yingshicang'
+                              | 'fast'
+                          )
+                        }
+                        className='mt-0.5 text-blue-600 focus:ring-blue-500'
+                      />
+                      <div>
+                        <span className='text-sm font-medium text-gray-700 dark:text-gray-300'>
+                          标准模式
+                        </span>
+                        <p className='text-xs text-gray-500 dark:text-gray-400'>
+                          完整配置，包含所有优化功能，适用于TVBox、猫影视等
+                        </p>
+                      </div>
+                    </label>
+                    <label className='flex items-start space-x-3'>
+                      <input
+                        type='radio'
+                        name='tvboxMode'
+                        value='yingshicang'
+                        checked={tvboxMode === 'yingshicang'}
+                        onChange={(e) =>
+                          setTvboxMode(
+                            e.target.value as
+                              | 'standard'
+                              | 'safe'
+                              | 'yingshicang'
+                              | 'fast'
+                          )
+                        }
+                        className='mt-0.5 text-blue-600 focus:ring-blue-500'
+                      />
+                      <div>
+                        <span className='text-sm font-medium text-gray-700 dark:text-gray-300'>
+                          影视仓优化模式 🔥
+                        </span>
+                        <p className='text-xs text-gray-500 dark:text-gray-400'>
+                          专门针对影视仓APP优化，解决jar错误和兼容性问题
+                        </p>
+                      </div>
+                    </label>
+                    <label className='flex items-start space-x-3'>
+                      <input
+                        type='radio'
+                        name='tvboxMode'
+                        value='fast'
+                        checked={tvboxMode === 'fast'}
+                        onChange={(e) =>
+                          setTvboxMode(
+                            e.target.value as
+                              | 'standard'
+                              | 'safe'
+                              | 'yingshicang'
+                              | 'fast'
+                          )
+                        }
+                        className='mt-0.5 text-blue-600 focus:ring-blue-500'
+                      />
+                      <div>
+                        <span className='text-sm font-medium text-gray-700 dark:text-gray-300'>
+                          快速切换模式 ⚡
+                        </span>
+                        <p className='text-xs text-gray-500 dark:text-gray-400'>
+                          专门优化资源切换速度，解决SSL错误和卡顿问题，推荐使用
+                        </p>
+                      </div>
+                    </label>
+                    <label className='flex items-start space-x-3'>
+                      <input
+                        type='radio'
+                        name='tvboxMode'
+                        value='safe'
+                        checked={tvboxMode === 'safe'}
+                        onChange={(e) =>
+                          setTvboxMode(
+                            e.target.value as
+                              | 'standard'
+                              | 'safe'
+                              | 'yingshicang'
+                              | 'fast'
+                          )
+                        }
+                        className='mt-0.5 text-blue-600 focus:ring-blue-500'
+                      />
+                      <div>
+                        <span className='text-sm font-medium text-gray-700 dark:text-gray-300'>
+                          兼容模式
+                        </span>
+                        <p className='text-xs text-gray-500 dark:text-gray-400'>
+                          简化配置，仅包含必要字段，适用于老版本或兼容性较差的应用
+                        </p>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+
+                <div className='flex items-center gap-2'>
+                  <input
+                    type='text'
+                    readOnly
+                    className='w-full px-3 py-2 rounded-md bg-gray-100 dark:bg-gray-900/40 text-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-700'
+                    value={getTvboxConfigUrl()}
+                  />
+                  <button
+                    onClick={handleTvboxCopy}
+                    className='px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm font-medium'
+                  >
+                    复制
+                  </button>
+                  <button
+                    onClick={handleTvboxTest}
+                    className='px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors text-sm font-medium'
+                  >
+                    测试
+                  </button>
+                </div>
+
+                {/* 成人内容过滤快捷开关 */}
+                <div className='bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3 border border-gray-200 dark:border-gray-700'>
+                  <div className='flex items-center justify-between mb-2'>
+                    <div className='flex items-center space-x-2'>
+                      <span className='text-sm font-medium text-gray-700 dark:text-gray-300'>
+                        🔒 成人内容过滤
+                      </span>
+                      <span className='text-xs text-gray-500 dark:text-gray-400'>
+                        （一键复制不同模式的配置链接）
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className='grid grid-cols-1 sm:grid-cols-2 gap-2'>
+                    {/* 家庭安全模式 */}
+                    <button
+                      onClick={() => {
+                        const baseUrl = getTvboxConfigUrl().split('?')[0];
+                        navigator.clipboard.writeText(baseUrl);
+                        showAlert({
+                          type: 'success',
+                          title: '复制成功',
+                          message: '已复制家庭安全模式链接（默认过滤成人内容）',
+                          timer: 2000,
+                        });
+                      }}
+                      className='flex items-center justify-between px-3 py-2 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-md hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors group'
+                    >
+                      <div className='flex items-center space-x-2'>
+                        <span className='text-lg'>🏠</span>
+                        <div className='text-left'>
+                          <div className='text-xs font-medium text-green-700 dark:text-green-300'>
+                            家庭安全模式
+                          </div>
+                          <div className='text-xs text-green-600 dark:text-green-400'>
+                            过滤成人内容
+                          </div>
+                        </div>
+                      </div>
+                      <div className='opacity-0 group-hover:opacity-100 transition-opacity'>
+                        <svg
+                          className='w-4 h-4 text-green-600 dark:text-green-400'
+                          fill='none'
+                          stroke='currentColor'
+                          viewBox='0 0 24 24'
+                        >
+                          <path
+                            strokeLinecap='round'
+                            strokeLinejoin='round'
+                            strokeWidth={2}
+                            d='M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z'
+                          />
+                        </svg>
+                      </div>
+                    </button>
+
+                    {/* 完整内容模式 */}
+                    <button
+                      onClick={() => {
+                        const baseUrl = getTvboxConfigUrl().split('?')[0];
+                        const fullUrl = `${baseUrl}?filter=off`;
+                        navigator.clipboard.writeText(fullUrl);
+                        showAlert({
+                          type: 'success',
+                          title: '复制成功',
+                          message: '已复制完整内容模式链接（显示所有内容）',
+                          timer: 2000,
+                        });
+                      }}
+                      className='flex items-center justify-between px-3 py-2 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-700 rounded-md hover:bg-orange-100 dark:hover:bg-orange-900/30 transition-colors group'
+                    >
+                      <div className='flex items-center space-x-2'>
+                        <span className='text-lg'>🔓</span>
+                        <div className='text-left'>
+                          <div className='text-xs font-medium text-orange-700 dark:text-orange-300'>
+                            完整内容模式
+                          </div>
+                          <div className='text-xs text-orange-600 dark:text-orange-400'>
+                            显示所有内容
+                          </div>
+                        </div>
+                      </div>
+                      <div className='opacity-0 group-hover:opacity-100 transition-opacity'>
+                        <svg
+                          className='w-4 h-4 text-orange-600 dark:text-orange-400'
+                          fill='none'
+                          stroke='currentColor'
+                          viewBox='0 0 24 24'
+                        >
+                          <path
+                            strokeLinecap='round'
+                            strokeLinejoin='round'
+                            strokeWidth={2}
+                            d='M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z'
+                          />
+                        </svg>
+                      </div>
+                    </button>
+                  </div>
+
+                  {/* 额外说明 */}
+                  <div className='mt-2 flex items-start space-x-2'>
+                    <svg
+                      className='w-4 h-4 text-blue-500 flex-shrink-0 mt-0.5'
+                      fill='currentColor'
+                      viewBox='0 0 20 20'
+                    >
+                      <path
+                        fillRule='evenodd'
+                        d='M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z'
+                        clipRule='evenodd'
+                      />
+                    </svg>
+                    <p className='text-xs text-gray-600 dark:text-gray-400'>
+                      默认使用智能搜索代理，如需直连原始 API 可添加{' '}
+                      <code className='px-1 py-0.5 bg-gray-200 dark:bg-gray-700 rounded text-xs'>
+                        ?proxy=off
+                      </code>{' '}
+                      参数
+                    </p>
+                  </div>
+                </div>
+
+                {/* 连通性体检区域 */}
+                <div className='space-y-3'>
+                  <div className='flex items-center justify-between'>
+                    <span className='text-sm font-medium text-gray-700 dark:text-gray-300'>
+                      连通性体检：
+                    </span>
+                    <button
+                      onClick={handleDiagnosis}
+                      disabled={isDiagnosing}
+                      className={`px-4 py-2 rounded-md transition-colors text-sm font-medium flex items-center space-x-2 ${
+                        isDiagnosing
+                          ? 'bg-gray-400 text-white cursor-not-allowed'
+                          : 'bg-purple-600 hover:bg-purple-700 text-white'
+                      }`}
+                    >
+                      {isDiagnosing ? (
+                        <>
+                          <div className='w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin'></div>
+                          <span>体检中...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>🩺</span>
+                          <span>一键体检</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+
+                  {/* 体检结果展示 */}
+                  {diagnosisResult && (
+                    <div
+                      className={`p-3 rounded-lg border-l-4 ${
+                        diagnosisResult.pass
+                          ? 'bg-green-50 dark:bg-green-900/20 border-green-500 text-green-800 dark:text-green-200'
+                          : 'bg-red-50 dark:bg-red-900/20 border-red-500 text-red-800 dark:text-red-200'
+                      }`}
+                    >
+                      <div className='flex items-center space-x-2 mb-2'>
+                        <span className='text-lg'>
+                          {diagnosisResult.pass ? '🟢' : '🔴'}
+                        </span>
+                        <span className='font-medium text-sm'>
+                          {diagnosisResult.pass ? '体检通过' : '体检失败'}
+                        </span>
+                      </div>
+                      <div className='text-xs space-y-1'>
+                        <div>状态码: {diagnosisResult.status || 'N/A'}</div>
+                        <div>
+                          内容类型: {diagnosisResult.contentType || 'N/A'}
+                        </div>
+                        <div>
+                          JSON有效: {diagnosisResult.hasJson ? '✓' : '✗'}
+                        </div>
+                        {diagnosisResult.issues &&
+                          diagnosisResult.issues.length > 0 && (
+                            <div className='mt-2'>
+                              <div className='font-medium mb-1'>问题:</div>
+                              <ul className='ml-4 list-disc space-y-1'>
+                                {diagnosisResult.issues.map(
+                                  (issue: string, index: number) => (
+                                    <li key={index}>{issue}</li>
+                                  )
+                                )}
+                              </ul>
+                              {diagnosisResult.issues.some(
+                                (issue: string) =>
+                                  issue.includes('spider') ||
+                                  issue.includes('JAR')
+                              ) && (
+                                <div className='mt-3 p-2 bg-purple-100 dark:bg-purple-900/30 rounded border border-purple-300 dark:border-purple-700'>
+                                  <div className='flex items-center justify-between'>
+                                    <span className='text-xs font-medium'>
+                                      💡 建议使用 JAR 源诊断工具查找可用源
+                                    </span>
+                                    <button
+                                      onClick={() =>
+                                        window.open(
+                                          '/api/tvbox/jar-diagnostic',
+                                          '_blank'
+                                        )
+                                      }
+                                      className='px-2 py-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded text-xs font-medium transition-all transform hover:scale-105'
+                                    >
+                                      打开诊断工具
+                                    </button>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* JAR 状态监控区域 */}
+                <div className='space-y-3 pt-4 border-t border-gray-200 dark:border-gray-700'>
+                  <div className='flex items-center justify-between'>
+                    <span className='text-sm font-medium text-gray-700 dark:text-gray-300'>
+                      JAR 文件状态监控：
+                    </span>
+                    <div className='flex space-x-2'>
+                      <button
+                        onClick={handleCheckJarStatus}
+                        disabled={isCheckingJar}
+                        className={`px-3 py-2 rounded-md transition-colors text-sm font-medium flex items-center space-x-2 ${
+                          isCheckingJar
+                            ? 'bg-gray-400 text-white cursor-not-allowed'
+                            : 'bg-blue-600 hover:bg-blue-700 text-white'
+                        }`}
+                      >
+                        {isCheckingJar ? (
+                          <>
+                            <div className='w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin'></div>
+                            <span>检查中...</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>🔍</span>
+                            <span>检查状态</span>
+                          </>
+                        )}
+                      </button>
+                      <button
+                        onClick={handleRefreshJar}
+                        disabled={isRefreshingJar}
+                        className={`px-3 py-2 rounded-md transition-colors text-sm font-medium flex items-center space-x-2 ${
+                          isRefreshingJar
+                            ? 'bg-gray-400 text-white cursor-not-allowed'
+                            : 'bg-orange-600 hover:bg-orange-700 text-white'
+                        }`}
+                      >
+                        {isRefreshingJar ? (
+                          <>
+                            <div className='w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin'></div>
+                            <span>刷新中...</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>🔄</span>
+                            <span>强制刷新</span>
+                          </>
+                        )}
+                      </button>
+=======
               <div className='space-y-6 p-2 sm:p-4'>
                 {/* 顶部：订阅链接生成器 (核心功能) */}
                 <div className='bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden'>
@@ -6806,18 +7310,115 @@ function AdminPageClient() {
                     </div>
 
                     <div className='mt-3 grid grid-cols-2 gap-2'>
+>>>>>>> upstream/main
                       <button
                         onClick={() =>
                           window.open('/api/tvbox/jar-diagnostic', '_blank')
                         }
+<<<<<<< HEAD
+                        className='px-3 py-2 rounded-md bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600 hover:from-purple-700 hover:via-pink-600 hover:to-indigo-700 text-white transition-all text-sm font-medium flex items-center space-x-2 shadow-md hover:shadow-lg transform hover:scale-105'
+                      >
+                        <span>🔬</span>
+                        <span>JAR源诊断工具</span>
+=======
                         className='px-2 py-1.5 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded text-xs font-medium hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-colors text-center'
                       >
                         🔬 深度诊断
+>>>>>>> upstream/main
                       </button>
                       <button
                         onClick={() =>
                           window.open('/api/tvbox/jar-test', '_blank')
                         }
+<<<<<<< HEAD
+                        className='px-3 py-2 rounded-md bg-gradient-to-r from-green-600 via-emerald-500 to-teal-600 hover:from-green-700 hover:via-emerald-600 hover:to-teal-700 text-white transition-all text-sm font-medium flex items-center space-x-2 shadow-md hover:shadow-lg transform hover:scale-105'
+                      >
+                        <span>⚡</span>
+                        <span>JAR快速测试</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* JAR 状态展示 */}
+                  {jarStatus && (
+                    <div
+                      className={`p-3 rounded-lg border-l-4 ${
+                        jarStatus.fresh_status?.success
+                          ? 'bg-green-50 dark:bg-green-900/20 border-green-500 text-green-800 dark:text-green-200'
+                          : 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-500 text-yellow-800 dark:text-yellow-200'
+                      }`}
+                    >
+                      <div className='flex items-center space-x-2 mb-2'>
+                        <span className='text-lg'>
+                          {jarStatus.fresh_status?.success ? '🟢' : '🟡'}
+                        </span>
+                        <span className='font-medium text-sm'>
+                          {jarStatus.fresh_status?.success
+                            ? 'JAR 状态正常'
+                            : 'JAR 使用备用方案'}
+                        </span>
+                      </div>
+                      <div className='text-xs space-y-1'>
+                        <div>
+                          源地址:{' '}
+                          {jarStatus.fresh_status?.source?.split('/').pop() ||
+                            'N/A'}
+                        </div>
+                        <div>
+                          文件大小:{' '}
+                          {jarStatus.fresh_status?.size
+                            ? Math.round(jarStatus.fresh_status.size / 1024) +
+                              'KB'
+                            : 'N/A'}
+                        </div>
+                        <div>
+                          MD5:{' '}
+                          {jarStatus.fresh_status?.md5?.substring(0, 8) ||
+                            'N/A'}
+                          ...
+                        </div>
+                        <div>
+                          尝试源数:{' '}
+                          {jarStatus.fresh_status?.tried_sources || 'N/A'}
+                        </div>
+                        {jarStatus.fresh_status?.is_fallback && (
+                          <div className='text-yellow-600 dark:text-yellow-400 font-medium'>
+                            ⚠️ 正在使用内置备用JAR文件
+                          </div>
+                        )}
+                        {jarStatus.recommendations &&
+                          jarStatus.recommendations.length > 0 && (
+                            <div>
+                              <div className='font-medium mt-2'>建议:</div>
+                              <ul className='ml-4 list-disc space-y-1'>
+                                {jarStatus.recommendations.map(
+                                  (rec: string, index: number) => (
+                                    <li key={index} className='text-xs'>
+                                      {rec}
+                                    </li>
+                                  )
+                                )}
+                              </ul>
+                            </div>
+                          )}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className='text-xs text-gray-500 dark:text-gray-400'>
+                    💡 如果遇到 "spider unreachable" 或 JAR
+                    加载错误，请尝试强制刷新 JAR
+                    文件。系统会自动选择最佳的远程源。
+                  </div>
+                </div>
+
+                <ul className='list-disc pl-6 text-sm text-gray-500 dark:text-gray-400 space-y-1'>
+                  <li>常见入口：设置 → 订阅管理 → 添加订阅。</li>
+                  <li>
+                    本订阅包含“视频源”和“直播源”，与你在此后台启用的配置同步。
+                  </li>
+                </ul>
+=======
                         className='px-2 py-1.5 bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 rounded text-xs font-medium hover:bg-teal-200 dark:hover:bg-teal-900/50 transition-colors text-center'
                       >
                         ⚡ 快速测试
@@ -6825,6 +7426,7 @@ function AdminPageClient() {
                     </div>
                   </div>
                 </div>
+>>>>>>> upstream/main
               </div>
             </CollapsibleTab>
 

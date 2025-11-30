@@ -36,7 +36,7 @@ export default function TopNavbar() {
                 href='/'
                 className='shrink-0 select-none hover:opacity-90 transition-opacity'
               >
-                <span className='text-xl font-black tracking-tight deco-brand'>
+                <span className='text-lg font-extrabold tracking-tight neon-text'>
                   {siteName || 'DecoTV'}
                 </span>
               </Link>
@@ -46,18 +46,16 @@ export default function TopNavbar() {
             <div className='flex items-center justify-center gap-2 flex-wrap'>
               <Link
                 href='/'
-                className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm hover:opacity-90 transition-all glass-chip chip-glow chip-theme chip-home ${
-                  isActive('/') ? 'ring-2 ring-purple-400/60' : ''
-                }`}
+                className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm hover:opacity-90 transition-all glass-chip chip-glow chip-theme chip-home ${isActive('/') ? 'ring-2 ring-purple-400/60' : ''
+                  }`}
               >
                 <Home className='h-4 w-4' />
                 <span>首页</span>
               </Link>
               <Link
                 href='/search'
-                className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm hover:opacity-90 transition-all glass-chip chip-glow chip-theme chip-search ${
-                  isActive('/search') ? 'ring-2 ring-purple-400/60' : ''
-                }`}
+                className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm hover:opacity-90 transition-all glass-chip chip-glow chip-theme chip-search ${isActive('/search') ? 'ring-2 ring-purple-400/60' : ''
+                  }`}
               >
                 <Search className='h-4 w-4' />
                 <span>搜索</span>
@@ -66,45 +64,40 @@ export default function TopNavbar() {
               {/* Categories */}
               <Link
                 href='/douban?type=movie'
-                className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm hover:opacity-90 transition-all glass-chip chip-glow chip-theme chip-movie ${
-                  isDoubanActive('movie') ? 'ring-2 ring-purple-400/60' : ''
-                }`}
+                className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm hover:opacity-90 transition-all glass-chip chip-glow chip-theme chip-movie ${isDoubanActive('movie') ? 'ring-2 ring-purple-400/60' : ''
+                  }`}
               >
                 <Film className='h-4 w-4' />
                 <span>电影</span>
               </Link>
               <Link
                 href='/douban?type=tv'
-                className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm hover:opacity-90 transition-all glass-chip chip-glow chip-theme chip-tv ${
-                  isDoubanActive('tv') ? 'ring-2 ring-purple-400/60' : ''
-                }`}
+                className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm hover:opacity-90 transition-all glass-chip chip-glow chip-theme chip-tv ${isDoubanActive('tv') ? 'ring-2 ring-purple-400/60' : ''
+                  }`}
               >
                 <Tv className='h-4 w-4' />
                 <span>剧集</span>
               </Link>
               <Link
                 href='/douban?type=anime'
-                className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm hover:opacity-90 transition-all glass-chip chip-glow chip-theme chip-anime ${
-                  isDoubanActive('anime') ? 'ring-2 ring-purple-400/60' : ''
-                }`}
+                className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm hover:opacity-90 transition-all glass-chip chip-glow chip-theme chip-anime ${isDoubanActive('anime') ? 'ring-2 ring-purple-400/60' : ''
+                  }`}
               >
                 <Cat className='h-4 w-4' />
                 <span>动漫</span>
               </Link>
               <Link
                 href='/douban?type=show'
-                className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm hover:opacity-90 transition-all glass-chip chip-glow chip-theme chip-show ${
-                  isDoubanActive('show') ? 'ring-2 ring-purple-400/60' : ''
-                }`}
+                className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm hover:opacity-90 transition-all glass-chip chip-glow chip-theme chip-show ${isDoubanActive('show') ? 'ring-2 ring-purple-400/60' : ''
+                  }`}
               >
                 <Clover className='h-4 w-4' />
                 <span>综艺</span>
               </Link>
               <Link
                 href='/live'
-                className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm hover:opacity-90 transition-all glass-chip chip-glow chip-theme chip-live ${
-                  isActive('/live') ? 'ring-2 ring-purple-400/60' : ''
-                }`}
+                className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm hover:opacity-90 transition-all glass-chip chip-glow chip-theme chip-live ${isActive('/live') ? 'ring-2 ring-purple-400/60' : ''
+                  }`}
               >
                 <Radio className='h-4 w-4' />
                 <span>直播</span>

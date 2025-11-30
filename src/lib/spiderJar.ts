@@ -99,8 +99,13 @@ const FAILURE_RESET_INTERVAL = 2 * 60 * 60 * 1000; // 2小时重置失败记录
 
 async function fetchRemote(
   url: string,
+<<<<<<< HEAD
+  timeoutMs = 12000,
+  retryCount = 2
+=======
   timeoutMs = 3000,
   retryCount = 0
+>>>>>>> upstream/main
 ): Promise<Buffer | null> {
   let _lastError: string | null = null;
 

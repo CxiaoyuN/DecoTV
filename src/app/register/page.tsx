@@ -304,15 +304,25 @@ function RegisterPageClient() {
         <ThemeToggle />
       </div>
 
+<<<<<<< HEAD
+      <div className='relative z-10 w-full max-w-md rounded-3xl bg-gradient-to-b from-white/90 via-white/70 to-white/40 dark:from-zinc-900/90 dark:via-zinc-900/70 dark:to-zinc-900/40 backdrop-blur-xl shadow-2xl p-10 dark:border dark:border-zinc-800 login-card'>
+        <div className='text-center mb-6'>
+          <h1 className='tracking-tight text-4xl font-extrabold mb-2 bg-clip-text neon-text neon-flicker'>
+=======
       <div className='relative z-10 w-full max-w-md rounded-3xl bg-gradient-to-b from-white/90 via-white/70 to-white/40 dark:from-zinc-900/90 dark:via-zinc-900/70 dark:to-zinc-900/40 backdrop-blur-xl shadow-2xl p-6 sm:p-10 dark:border dark:border-zinc-800 login-card'>
         <div className='text-center mb-6'>
           <h1 className='tracking-tight text-3xl sm:text-4xl font-extrabold mb-2 bg-clip-text neon-text neon-flicker'>
+>>>>>>> upstream/main
             {siteName}
           </h1>
           <p className='text-sm text-gray-600 dark:text-gray-400'>创建新账号</p>
         </div>
 
+<<<<<<< HEAD
+        <form onSubmit={handleSubmit} className='space-y-5'>
+=======
         <form onSubmit={handleSubmit} className='space-y-4 sm:space-y-5'>
+>>>>>>> upstream/main
           {/* 用户名 */}
           <div>
             <label htmlFor='username' className='sr-only'>
@@ -322,17 +332,29 @@ function RegisterPageClient() {
               id='username'
               type='text'
               autoComplete='username'
+<<<<<<< HEAD
+              className={`block w-full rounded-lg border-0 py-3 px-4 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ${
+                getUsernameError()
+                  ? 'ring-red-500 focus:ring-red-500'
+                  : 'ring-white/60 dark:ring-white/20 focus:ring-purple-500'
+              } placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:ring-2 focus:outline-none sm:text-base bg-white/60 dark:bg-zinc-800/60 backdrop-blur transition-all duration-300 hover:ring-purple-400 focus:shadow-lg focus:shadow-purple-500/25 login-input`}
+=======
               className={`block w-full rounded-2xl border-0 py-3 px-4 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ${
                 getUsernameError()
                   ? 'ring-red-500 focus:ring-red-500'
                   : 'ring-white/60 dark:ring-white/20 focus:ring-purple-500'
               } placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:ring-2 focus:outline-none text-sm sm:text-base bg-white/60 dark:bg-zinc-800/60 backdrop-blur transition-all duration-300 hover:ring-purple-400 focus:shadow-lg focus:shadow-purple-500/25 login-input`}
+>>>>>>> upstream/main
               placeholder='用户名 (3-20字符)'
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
             {getUsernameError() && (
+<<<<<<< HEAD
+              <p className='mt-1 text-xs text-red-600 dark:text-red-400'>
+=======
               <p className='mt-1 text-xs text-red-600 dark:text-red-400 pl-1'>
+>>>>>>> upstream/main
                 {getUsernameError()}
               </p>
             )}
@@ -347,17 +369,29 @@ function RegisterPageClient() {
               id='password'
               type='password'
               autoComplete='new-password'
+<<<<<<< HEAD
+              className={`block w-full rounded-lg border-0 py-3 px-4 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ${
+                getPasswordError()
+                  ? 'ring-red-500 focus:ring-red-500'
+                  : 'ring-white/60 dark:ring-white/20 focus:ring-purple-500'
+              } placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:ring-2 focus:outline-none sm:text-base bg-white/60 dark:bg-zinc-800/60 backdrop-blur transition-all duration-300 hover:ring-purple-400 focus:shadow-lg focus:shadow-purple-500/25 login-input`}
+=======
               className={`block w-full rounded-2xl border-0 py-3 px-4 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ${
                 getPasswordError()
                   ? 'ring-red-500 focus:ring-red-500'
                   : 'ring-white/60 dark:ring-white/20 focus:ring-purple-500'
               } placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:ring-2 focus:outline-none text-sm sm:text-base bg-white/60 dark:bg-zinc-800/60 backdrop-blur transition-all duration-300 hover:ring-purple-400 focus:shadow-lg focus:shadow-purple-500/25 login-input`}
+>>>>>>> upstream/main
               placeholder='密码 (至少6位)'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
             {getPasswordError() && (
+<<<<<<< HEAD
+              <p className='mt-1 text-xs text-red-600 dark:text-red-400'>
+=======
               <p className='mt-1 text-xs text-red-600 dark:text-red-400 pl-1'>
+>>>>>>> upstream/main
                 {getPasswordError()}
               </p>
             )}
@@ -372,17 +406,29 @@ function RegisterPageClient() {
               id='confirmPassword'
               type='password'
               autoComplete='new-password'
+<<<<<<< HEAD
+              className={`block w-full rounded-lg border-0 py-3 px-4 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ${
+                getConfirmPasswordError()
+                  ? 'ring-red-500 focus:ring-red-500'
+                  : 'ring-white/60 dark:ring-white/20 focus:ring-purple-500'
+              } placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:ring-2 focus:outline-none sm:text-base bg-white/60 dark:bg-zinc-800/60 backdrop-blur transition-all duration-300 hover:ring-purple-400 focus:shadow-lg focus:shadow-purple-500/25 login-input`}
+=======
               className={`block w-full rounded-2xl border-0 py-3 px-4 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ${
                 getConfirmPasswordError()
                   ? 'ring-red-500 focus:ring-red-500'
                   : 'ring-white/60 dark:ring-white/20 focus:ring-purple-500'
               } placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:ring-2 focus:outline-none text-sm sm:text-base bg-white/60 dark:bg-zinc-800/60 backdrop-blur transition-all duration-300 hover:ring-purple-400 focus:shadow-lg focus:shadow-purple-500/25 login-input`}
+>>>>>>> upstream/main
               placeholder='确认密码'
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
             {getConfirmPasswordError() && (
+<<<<<<< HEAD
+              <p className='mt-1 text-xs text-red-600 dark:text-red-400'>
+=======
               <p className='mt-1 text-xs text-red-600 dark:text-red-400 pl-1'>
+>>>>>>> upstream/main
                 {getConfirmPasswordError()}
               </p>
             )}
@@ -393,47 +439,96 @@ function RegisterPageClient() {
             <label htmlFor='captcha' className='sr-only'>
               验证码
             </label>
+<<<<<<< HEAD
+            <div className='flex items-center gap-2'>
+=======
             <div className='flex items-stretch gap-2'>
+>>>>>>> upstream/main
               <input
                 id='captcha'
                 type='text'
                 autoComplete='off'
+<<<<<<< HEAD
+                className='block flex-1 rounded-lg border-0 py-3 px-4 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-white/60 dark:ring-white/20 placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:ring-2 focus:ring-purple-500 focus:outline-none sm:text-base bg-white/60 dark:bg-zinc-800/60 backdrop-blur transition-all duration-300 hover:ring-purple-400 focus:shadow-lg focus:shadow-purple-500/25 login-input uppercase'
+=======
                 className='block w-full min-w-0 flex-1 rounded-2xl border-0 py-3 px-4 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-white/60 dark:ring-white/20 placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:ring-2 focus:ring-purple-500 focus:outline-none text-sm sm:text-base bg-white/60 dark:bg-zinc-800/60 backdrop-blur transition-all duration-300 hover:ring-purple-400 focus:shadow-lg focus:shadow-purple-500/25 login-input uppercase'
+>>>>>>> upstream/main
                 placeholder='验证码'
                 value={captcha}
                 onChange={(e) => setCaptcha(e.target.value.toUpperCase())}
                 maxLength={4}
               />
               {/* 验证码图片 */}
+<<<<<<< HEAD
+              <div className='relative'>
+                {captchaLoading ? (
+                  <div className='w-[120px] h-[40px] bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center'>
+=======
               <div className='relative shrink-0'>
                 {captchaLoading ? (
                   <div className='w-[100px] sm:w-[120px] h-full min-h-[46px] bg-gray-200 dark:bg-gray-700 rounded-2xl flex items-center justify-center'>
+>>>>>>> upstream/main
                     <RefreshCw className='w-5 h-5 animate-spin text-gray-400' />
                   </div>
                 ) : (
                   <div
+<<<<<<< HEAD
+                    className='w-[120px] h-[40px] rounded-lg overflow-hidden cursor-pointer hover:opacity-80 transition-opacity'
+=======
                     className='w-[100px] sm:w-[120px] h-full min-h-[46px] rounded-2xl overflow-hidden cursor-pointer hover:opacity-80 transition-opacity bg-white/50 dark:bg-zinc-800/50 flex items-center justify-center'
+>>>>>>> upstream/main
                     onClick={loadCaptcha}
                     dangerouslySetInnerHTML={{ __html: captchaSvg }}
                   />
                 )}
+<<<<<<< HEAD
+                <button
+                  type='button'
+                  onClick={loadCaptcha}
+                  disabled={captchaLoading}
+                  className='absolute -bottom-1 -right-1 p-1 bg-white dark:bg-zinc-800 rounded-full shadow-lg hover:bg-gray-100 dark:hover:bg-zinc-700 transition-colors disabled:opacity-50'
+                  title='刷新验证码'
+                >
+                  <RefreshCw
+                    className={`w-3 h-3 text-gray-600 dark:text-gray-400 ${
+                      captchaLoading ? 'animate-spin' : ''
+                    }`}
+                  />
+                </button>
               </div>
             </div>
+            <p className='mt-1 text-xs text-gray-500 dark:text-gray-400'>
+              点击验证码图片可刷新
+            </p>
+=======
+              </div>
+            </div>
+>>>>>>> upstream/main
           </div>
 
           {/* 错误提示 */}
           {error && (
+<<<<<<< HEAD
+            <div className='p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg'>
+              <p className='text-sm text-red-600 dark:text-red-400'>{error}</p>
+=======
             <div className='p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl'>
               <p className='text-sm text-red-600 dark:text-red-400 text-center'>
                 {error}
               </p>
+>>>>>>> upstream/main
             </div>
           )}
 
           {/* 成功提示 */}
           {success && (
+<<<<<<< HEAD
+            <div className='p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg'>
+              <p className='text-sm text-green-600 dark:text-green-400'>
+=======
             <div className='p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-2xl'>
               <p className='text-sm text-green-600 dark:text-green-400 text-center'>
+>>>>>>> upstream/main
                 {success}
               </p>
             </div>
@@ -452,6 +547,20 @@ function RegisterPageClient() {
               !!getPasswordError() ||
               !!getConfirmPasswordError()
             }
+<<<<<<< HEAD
+            className='inline-flex w-full justify-center rounded-lg bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-600 py-3 text-base font-semibold text-white shadow-lg transition-all duration-300 hover:brightness-110 hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100 neon-pulse login-button'
+          >
+            {loading ? '注册中...' : '注册账号'}
+          </button>
+
+          {/* 登录链接 */}
+          <div className='text-center'>
+            <Link
+              href='/login'
+              className='text-sm text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors'
+            >
+              已有账号？立即登录
+=======
             className='inline-flex w-full justify-center rounded-2xl bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-600 py-3.5 text-base font-bold text-white shadow-lg transition-all duration-300 hover:brightness-110 hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100 neon-pulse login-button'
           >
             {loading ? '注册中...' : '立即注册'}
@@ -467,6 +576,7 @@ function RegisterPageClient() {
               <span className='underline decoration-2 underline-offset-4'>
                 立即登录
               </span>
+>>>>>>> upstream/main
             </Link>
           </div>
         </form>

@@ -4,6 +4,11 @@
  */
 
 // 版本常量
+<<<<<<< HEAD
+const CURRENT_SEMANTIC_VERSION = '0.6.0';
+export const CURRENT_VERSION = CURRENT_SEMANTIC_VERSION;
+
+=======
 const CURRENT_SEMANTIC_VERSION = '0.7.0';
 export const CURRENT_VERSION = CURRENT_SEMANTIC_VERSION;
 
@@ -25,6 +30,7 @@ const PACKAGE_SOURCE_URLS = [
   `https://raw.fastgit.org/${UPDATE_REPO}/${UPDATE_REF}/package.json`,
 ];
 
+>>>>>>> upstream/main
 export interface VersionInfo {
   version: string; // package.json 版本 (如 "0.2.0")
   timestamp: string; // 时间戳版本 (如 "20251005140531")
@@ -41,6 +47,8 @@ export interface RemoteVersionInfo {
   downloadUrl?: string;
 }
 
+<<<<<<< HEAD
+=======
 function appendCacheBuster(url: string): string {
   const cacheBuster = `_ts=${Date.now()}`;
   return url.includes('?') ? `${url}&${cacheBuster}` : `${url}?${cacheBuster}`;
@@ -76,6 +84,7 @@ async function fetchPlainTextWithTimeout(
   }
 }
 
+>>>>>>> upstream/main
 /**
  * 解析时间戳版本号
  */
@@ -188,6 +197,37 @@ export async function getCurrentVersionInfo(): Promise<VersionInfo> {
  * 从远程获取版本时间戳
  */
 async function fetchRemoteVersion(): Promise<string | null> {
+<<<<<<< HEAD
+  try {
+    const repoUrl =
+      'https://raw.githubusercontent.com/Decohererk/DecoTV/main/VERSION.txt';
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5秒超时
+
+    const response = await fetch(repoUrl, {
+      signal: controller.signal,
+      cache: 'no-cache',
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const timestamp = (await response.text()).trim();
+
+    // 验证时间戳格式
+    if (!/^\d{14}$/.test(timestamp)) {
+      return null;
+    }
+
+    return timestamp;
+  } catch (error) {
+    // 网络错误或超时，静默处理
+    return null;
+  }
+=======
   for (const url of VERSION_SOURCE_URLS) {
     const timestamp = await fetchPlainTextWithTimeout(url);
     if (timestamp && VERSION_TIMESTAMP_REGEX.test(timestamp)) {
@@ -196,12 +236,38 @@ async function fetchRemoteVersion(): Promise<string | null> {
   }
 
   return null;
+>>>>>>> upstream/main
 }
 
 /**
  * 从远程获取语义版本号
  */
 async function fetchRemoteSemanticVersion(): Promise<string | null> {
+<<<<<<< HEAD
+  try {
+    const repoUrl =
+      'https://raw.githubusercontent.com/Decohererk/DecoTV/main/package.json';
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5秒超时
+
+    const response = await fetch(repoUrl, {
+      signal: controller.signal,
+      cache: 'no-cache',
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const packageJson = await response.json();
+    return packageJson.version || null;
+  } catch (error) {
+    // 网络错误或超时，静默处理
+    return null;
+  }
+=======
   for (const url of PACKAGE_SOURCE_URLS) {
     const payload = await fetchPlainTextWithTimeout(url, 'application/json');
     if (!payload) {
@@ -220,6 +286,7 @@ async function fetchRemoteSemanticVersion(): Promise<string | null> {
   }
 
   return null;
+>>>>>>> upstream/main
 }
 
 /**
@@ -237,7 +304,13 @@ export async function checkForUpdates(currentTimestamp: string): Promise<{
     ]);
 
     if (!remoteTimestamp) {
+<<<<<<< HEAD
+      return {
+        hasUpdate: false,
+      };
+=======
       throw new Error('无法获取远程版本信息');
+>>>>>>> upstream/main
     }
 
     // 比较时间戳：只有远程时间戳大于当前时间戳才认为有更新

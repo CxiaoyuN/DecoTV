@@ -3,7 +3,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { getAuthInfoFromCookie } from '@/lib/auth';
+<<<<<<< HEAD
+=======
 import { toSimplified } from '@/lib/chinese';
+>>>>>>> upstream/main
 import { getAvailableApiSites, getConfig } from '@/lib/config';
 import { searchFromApi } from '@/lib/downstream';
 import { rankSearchResults } from '@/lib/search-ranking';
@@ -32,6 +35,8 @@ export async function GET(request: NextRequest) {
   const config = await getConfig();
   const apiSites = await getAvailableApiSites(authInfo.username);
 
+<<<<<<< HEAD
+=======
   // 将搜索关键词规范化为简体中文
   let normalizedQuery = query;
   try {
@@ -48,6 +53,7 @@ export async function GET(request: NextRequest) {
     searchQueries.push(query);
   }
 
+>>>>>>> upstream/main
   // 共享状态
   let streamClosed = false;
 
@@ -80,7 +86,10 @@ export async function GET(request: NextRequest) {
       const startEvent = `data: ${JSON.stringify({
         type: 'start',
         query,
+<<<<<<< HEAD
+=======
         normalizedQuery,
+>>>>>>> upstream/main
         totalSources: apiSites.length,
         timestamp: Date.now(),
       })}\n\n`;
@@ -96,6 +105,17 @@ export async function GET(request: NextRequest) {
       // 为每个源创建搜索 Promise
       const searchPromises = apiSites.map(async (site) => {
         try {
+<<<<<<< HEAD
+          // 添加超时控制
+          const searchPromise = Promise.race([
+            searchFromApi(site, query),
+            new Promise((_, reject) =>
+              setTimeout(() => reject(new Error(`${site.name} timeout`)), 20000)
+            ),
+          ]);
+
+          const results = (await searchPromise) as any[];
+=======
           // 对每个站点，尝试搜索所有关键词
           const siteResultsPromises = searchQueries.map((q) =>
             Promise.race([
@@ -118,6 +138,7 @@ export async function GET(request: NextRequest) {
           const uniqueMap = new Map();
           results.forEach((r) => uniqueMap.set(r.id, r));
           results = Array.from(uniqueMap.values());
+>>>>>>> upstream/main
 
           // 成人内容过滤
           let filteredResults = results;
@@ -136,7 +157,11 @@ export async function GET(request: NextRequest) {
           }
 
           // 🎯 智能排序：按相关性对该源的结果排序
+<<<<<<< HEAD
+          filteredResults = rankSearchResults(filteredResults, query);
+=======
           filteredResults = rankSearchResults(filteredResults, normalizedQuery);
+>>>>>>> upstream/main
 
           // 发送该源的搜索结果
           completedSources++;

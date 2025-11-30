@@ -22,6 +22,8 @@ export interface BangumiCalendarData {
   }[];
 }
 
+<<<<<<< HEAD
+=======
 /**
  * 将 HTTP 图片链接转换为 HTTPS，避免 Mixed Content 警告
  */
@@ -53,6 +55,7 @@ function normalizeBangumiData(
   }));
 }
 
+>>>>>>> upstream/main
 export async function GetBangumiCalendarData(): Promise<BangumiCalendarData[]> {
   try {
     const response = await fetch('https://api.bgm.tv/calendar');
@@ -60,9 +63,14 @@ export async function GetBangumiCalendarData(): Promise<BangumiCalendarData[]> {
       return [];
     }
     const data = await response.json();
+<<<<<<< HEAD
+    // 确保返回的数据是数组格式
+    return Array.isArray(data) ? data : [];
+=======
     // 确保返回的数据是数组格式，并规范化图片链接
     const calendarData = Array.isArray(data) ? data : [];
     return normalizeBangumiData(calendarData);
+>>>>>>> upstream/main
   } catch (error) {
     return [];
   }

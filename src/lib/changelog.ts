@@ -11,6 +11,8 @@ export interface ChangelogEntry {
 
 export const changelog: ChangelogEntry[] = [
   {
+<<<<<<< HEAD
+=======
     version: '0.7.0',
     date: '2025-11-26',
     added: [
@@ -29,6 +31,7 @@ export const changelog: ChangelogEntry[] = [
     ],
   },
   {
+>>>>>>> upstream/main
     version: '0.6.0',
     date: '2025-10-30',
     added: [

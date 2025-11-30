@@ -38,7 +38,10 @@ function SearchPageClient() {
   const searchParams = useSearchParams();
   const currentQueryRef = useRef<string>('');
   const [searchQuery, setSearchQuery] = useState('');
+<<<<<<< HEAD
+=======
   const [normalizedQuery, setNormalizedQuery] = useState('');
+>>>>>>> upstream/main
   const [isLoading, setIsLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
@@ -200,16 +203,27 @@ function SearchPageClient() {
     const query = currentQueryRef.current.trim().toLowerCase();
     const queryNoSpace = query.replace(/\s+/g, '');
 
+<<<<<<< HEAD
+=======
     const normQuery = normalizedQuery
       ? normalizedQuery.trim().toLowerCase()
       : query;
     const normQueryNoSpace = normQuery.replace(/\s+/g, '');
 
+>>>>>>> upstream/main
     // 过滤：只保留标题相关的结果
     const relevantResults = searchResults.filter((item) => {
       const title = item.title.toLowerCase();
       const titleNoSpace = title.replace(/\s+/g, '');
 
+<<<<<<< HEAD
+      // 包含完整关键词
+      if (title.includes(query) || titleNoSpace.includes(queryNoSpace)) {
+        return true;
+      }
+
+      // 顺序包含关键词的所有字符
+=======
       // 包含完整关键词 (检查原词和转换后的词)
       if (
         title.includes(query) ||
@@ -221,6 +235,7 @@ function SearchPageClient() {
       }
 
       // 顺序包含关键词的所有字符 (检查原词)
+>>>>>>> upstream/main
       let queryIndex = 0;
       for (
         let i = 0;
@@ -231,6 +246,9 @@ function SearchPageClient() {
           queryIndex++;
         }
       }
+<<<<<<< HEAD
+      return queryIndex === queryNoSpace.length;
+=======
       if (queryIndex === queryNoSpace.length) return true;
 
       // 顺序包含关键词的所有字符 (检查转换后的词)
@@ -249,6 +267,7 @@ function SearchPageClient() {
       }
 
       return false;
+>>>>>>> upstream/main
     });
 
     const map = new Map<string, SearchResult[]>();
@@ -508,7 +527,10 @@ function SearchPageClient() {
 
     if (query) {
       setSearchQuery(query);
+<<<<<<< HEAD
+=======
       setNormalizedQuery(''); // 重置
+>>>>>>> upstream/main
       // 新搜索：关闭旧连接并清空结果
       if (eventSourceRef.current) {
         try {
@@ -563,9 +585,12 @@ function SearchPageClient() {
             switch (payload.type) {
               case 'start':
                 setTotalSources(payload.totalSources || 0);
+<<<<<<< HEAD
+=======
                 if (payload.normalizedQuery) {
                   setNormalizedQuery(payload.normalizedQuery);
                 }
+>>>>>>> upstream/main
                 setCompletedSources(0);
                 break;
               case 'source_result': {
@@ -649,10 +674,13 @@ function SearchPageClient() {
           .then((data) => {
             if (currentQueryRef.current !== trimmed) return;
 
+<<<<<<< HEAD
+=======
             if (data.normalizedQuery) {
               setNormalizedQuery(data.normalizedQuery);
             }
 
+>>>>>>> upstream/main
             if (data.results && Array.isArray(data.results)) {
               // ✨ 后端已按相关性排序，直接使用结果
               const results: SearchResult[] = data.results as SearchResult[];
