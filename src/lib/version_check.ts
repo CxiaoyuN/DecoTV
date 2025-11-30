@@ -2,8 +2,11 @@
 
 'use client';
 
+<<<<<<< HEAD
 // 版本检查工具 - 基于时间戳比较
 
+=======
+>>>>>>> upstream/main
 // 版本检查结果枚举
 export enum UpdateStatus {
   HAS_UPDATE = 'has_update', // 有新版本
@@ -11,6 +14,7 @@ export enum UpdateStatus {
   FETCH_FAILED = 'fetch_failed', // 获取失败
 }
 
+<<<<<<< HEAD
 // 远程版本检查URL配置（可通过 NEXT_PUBLIC_UPDATE_REPO 指定形如 "owner/repo"）
 const UPDATE_REPO = process.env.NEXT_PUBLIC_UPDATE_REPO || 'Decohererk/DecoTV';
 const VERSION_CHECK_URLS = UPDATE_REPO
@@ -20,6 +24,23 @@ const VERSION_CHECK_URLS = UPDATE_REPO
 /**
  * 检查是否有新版本可用
  * @returns Promise<UpdateStatus> - 返回版本检查状态
+=======
+const VERSION_CHECK_ENDPOINT = '/api/version/check';
+
+type VersionCheckPayload = {
+  success?: boolean;
+  hasUpdate?: boolean;
+  current?: {
+    timestamp?: string;
+  };
+  remote?: {
+    timestamp?: string;
+  } | null;
+};
+
+/**
+ * 检查是否有新版本可用
+>>>>>>> upstream/main
  */
 export async function checkForUpdates(): Promise<{
   status: UpdateStatus;
@@ -27,6 +48,7 @@ export async function checkForUpdates(): Promise<{
   remoteTimestamp?: string;
 }> {
   try {
+<<<<<<< HEAD
     if (VERSION_CHECK_URLS.length === 0) {
       return { status: UpdateStatus.FETCH_FAILED };
     }
@@ -139,5 +161,35 @@ export function compareVersionsByTimestamp(
   } catch (error) {
     // 如果时间戳格式无效，认为没有更新
     return UpdateStatus.NO_UPDATE;
+=======
+    const response = await fetch(VERSION_CHECK_ENDPOINT, {
+      method: 'GET',
+      cache: 'no-store',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`请求版本信息失败: ${response.status}`);
+    }
+
+    const payload: VersionCheckPayload = await response.json();
+
+    if (!payload?.success || !payload?.current?.timestamp) {
+      throw new Error('版本检测响应无效');
+    }
+
+    return {
+      status: payload.hasUpdate
+        ? UpdateStatus.HAS_UPDATE
+        : UpdateStatus.NO_UPDATE,
+      currentTimestamp: payload.current.timestamp,
+      remoteTimestamp: payload.remote?.timestamp,
+    };
+  } catch (error) {
+    console.warn('版本检测失败:', error);
+    return { status: UpdateStatus.FETCH_FAILED };
+>>>>>>> upstream/main
   }
 }

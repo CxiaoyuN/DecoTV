@@ -18,6 +18,16 @@ interface ApiSearchItem {
   type_name?: string;
 }
 
+<<<<<<< HEAD
+=======
+const M3U8_EXTENSION_REGEX = /\.m3u8(?=$|[?#])/i;
+
+function isPlayableM3u8(url?: string): boolean {
+  if (!url) return false;
+  return M3U8_EXTENSION_REGEX.test(url.trim());
+}
+
+>>>>>>> upstream/main
 /**
  * 通用的带缓存搜索函数
  */
@@ -26,7 +36,11 @@ async function searchWithCache(
   query: string,
   page: number,
   url: string,
+<<<<<<< HEAD
   timeoutMs = 8000
+=======
+  timeoutMs = 5000
+>>>>>>> upstream/main
 ): Promise<{ results: SearchResult[]; pageCount?: number }> {
   // 先查缓存
   const cached = getCachedSearchPage(apiSite.key, query, page);
@@ -86,7 +100,11 @@ async function searchWithCache(
             const episode_title_url = title_url.split('$');
             if (
               episode_title_url.length === 2 &&
+<<<<<<< HEAD
               episode_title_url[1].endsWith('.m3u8')
+=======
+              isPlayableM3u8(episode_title_url[1])
+>>>>>>> upstream/main
             ) {
               matchTitles.push(episode_title_url[0]);
               matchEpisodes.push(episode_title_url[1]);
@@ -118,7 +136,13 @@ async function searchWithCache(
     });
 
     // 过滤掉集数为 0 的结果
+<<<<<<< HEAD
     const results = allResults.filter((result: SearchResult) => result.episodes.length > 0);
+=======
+    const results = allResults.filter(
+      (result: SearchResult) => result.episodes.length > 0
+    );
+>>>>>>> upstream/main
 
     const pageCount = page === 1 ? data.pagecount || 1 : undefined;
     // 写入缓存（成功）
@@ -127,7 +151,14 @@ async function searchWithCache(
   } catch (error: any) {
     clearTimeout(timeoutId);
     // 识别被 AbortController 中止（超时）
+<<<<<<< HEAD
     const aborted = error?.name === 'AbortError' || error?.code === 20 || error?.message?.includes('aborted');
+=======
+    const aborted =
+      error?.name === 'AbortError' ||
+      error?.code === 20 ||
+      error?.message?.includes('aborted');
+>>>>>>> upstream/main
     if (aborted) {
       setCachedSearchPage(apiSite.key, query, page, 'timeout', []);
     }
@@ -145,7 +176,17 @@ export async function searchFromApi(
       apiBaseUrl + API_CONFIG.search.path + encodeURIComponent(query);
 
     // 使用新的缓存搜索函数处理第一页
+<<<<<<< HEAD
     const firstPageResult = await searchWithCache(apiSite, query, 1, apiUrl, 8000);
+=======
+    const firstPageResult = await searchWithCache(
+      apiSite,
+      query,
+      1,
+      apiUrl,
+      5000
+    );
+>>>>>>> upstream/main
     const results = firstPageResult.results;
     const pageCountFromFirst = firstPageResult.pageCount;
 
@@ -170,7 +211,17 @@ export async function searchFromApi(
 
         const pagePromise = (async () => {
           // 使用新的缓存搜索函数处理分页
+<<<<<<< HEAD
           const pageResult = await searchWithCache(apiSite, query, page, pageUrl, 8000);
+=======
+          const pageResult = await searchWithCache(
+            apiSite,
+            query,
+            page,
+            pageUrl,
+            5000
+          );
+>>>>>>> upstream/main
           return pageResult.results;
         })();
 
@@ -195,7 +246,11 @@ export async function searchFromApi(
 }
 
 // 匹配 m3u8 链接的正则
+<<<<<<< HEAD
 const M3U8_PATTERN = /(https?:\/\/[^"'\s]+?\.m3u8)/g;
+=======
+const M3U8_PATTERN = /(https?:\/\/[^"'\s]+?\.m3u8[^\s"']*)/gi;
+>>>>>>> upstream/main
 
 export async function getDetailFromApi(
   apiSite: ApiSite,
@@ -249,7 +304,11 @@ export async function getDetailFromApi(
         const episode_title_url = title_url.split('$');
         if (
           episode_title_url.length === 2 &&
+<<<<<<< HEAD
           episode_title_url[1].endsWith('.m3u8')
+=======
+          isPlayableM3u8(episode_title_url[1])
+>>>>>>> upstream/main
         ) {
           matchTitles.push(episode_title_url[0]);
           matchEpisodes.push(episode_title_url[1]);

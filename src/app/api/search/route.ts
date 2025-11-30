@@ -3,6 +3,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { getAuthInfoFromCookie } from '@/lib/auth';
+<<<<<<< HEAD
+=======
+import { toSimplified } from '@/lib/chinese';
+>>>>>>> upstream/main
 import { getAvailableApiSites, getCacheTime, getConfig } from '@/lib/config';
 import { searchFromApi } from '@/lib/downstream';
 import { rankSearchResults } from '@/lib/search-ranking';
@@ -55,6 +59,7 @@ export async function GET(request: NextRequest) {
     shouldFilterAdult = true; // 启用过滤 = 隐藏成人内容
   }
 
+<<<<<<< HEAD
   // 添加超时控制和错误处理，避免慢接口拖累整体响应
   const searchPromises = apiSites.map((site) =>
     Promise.race([
@@ -66,6 +71,39 @@ export async function GET(request: NextRequest) {
       console.warn(`搜索失败 ${site.name}:`, err.message);
       return []; // 返回空数组而不是抛出错误
     })
+=======
+  // 将搜索关键词规范化为简体中文，提升繁体用户搜索体验
+  let normalizedQuery = query;
+  try {
+    if (query) {
+      normalizedQuery = await toSimplified(query);
+    }
+  } catch (e) {
+    console.warn('繁体转简体失败，使用原始关键词', (e as any)?.message || e);
+    normalizedQuery = query;
+  }
+
+  // 准备搜索关键词列表：如果转换后的关键词与原词不同，则同时搜索两者
+  const searchQueries = [normalizedQuery];
+  if (query && normalizedQuery !== query) {
+    searchQueries.push(query);
+  }
+
+  // 添加超时控制和错误处理，避免慢接口拖累整体响应
+  // 对每个站点，尝试搜索所有关键词
+  const searchPromises = apiSites.flatMap((site) =>
+    searchQueries.map((q) =>
+      Promise.race([
+        searchFromApi(site, q),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error(`${site.name} timeout`)), 20000)
+        ),
+      ]).catch((err) => {
+        console.warn(`搜索失败 ${site.name} (query: ${q}):`, err.message);
+        return []; // 返回空数组而不是抛出错误
+      })
+    )
+>>>>>>> upstream/main
   );
 
   try {
@@ -75,6 +113,19 @@ export async function GET(request: NextRequest) {
       .map((result) => (result as PromiseFulfilledResult<any>).value);
     let flattenedResults = successResults.flat();
 
+<<<<<<< HEAD
+=======
+    // 去重：根据 source 和 id 去重
+    const uniqueResultsMap = new Map<string, any>();
+    flattenedResults.forEach((item) => {
+      const key = `${item.source}|${item.id}`;
+      if (!uniqueResultsMap.has(key)) {
+        uniqueResultsMap.set(key, item);
+      }
+    });
+    flattenedResults = Array.from(uniqueResultsMap.values());
+
+>>>>>>> upstream/main
     // 🔒 成人内容过滤逻辑
     // shouldFilterAdult=true 表示启用过滤(过滤成人内容)
     // shouldFilterAdult=false 表示禁用过滤(显示所有内容)
@@ -94,8 +145,16 @@ export async function GET(request: NextRequest) {
       });
     }
 
+<<<<<<< HEAD
     // 🎯 智能排序：按相关性对搜索结果排序
     flattenedResults = rankSearchResults(flattenedResults, query);
+=======
+    // 🎯 智能排序：按相关性对搜索结果排序（使用规范化关键词）
+    flattenedResults = rankSearchResults(
+      flattenedResults,
+      normalizedQuery || query
+    );
+>>>>>>> upstream/main
 
     const cacheTime = await getCacheTime();
 
@@ -105,7 +164,11 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json(
+<<<<<<< HEAD
       { results: flattenedResults },
+=======
+      { results: flattenedResults, normalizedQuery },
+>>>>>>> upstream/main
       {
         headers: {
           'Cache-Control': `public, max-age=${cacheTime}, s-maxage=${cacheTime}`,

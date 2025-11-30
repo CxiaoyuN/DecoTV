@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+<<<<<<< HEAD
+=======
+import { resolveAdultFilter } from '@/lib/adult-filter';
+>>>>>>> upstream/main
 import { getAuthInfoFromCookie } from '@/lib/auth';
 import { getAvailableApiSites, getCacheTime, getConfig } from '@/lib/config';
 import { searchFromApi } from '@/lib/downstream';
@@ -34,7 +38,20 @@ export async function GET(request: NextRequest) {
   }
 
   const config = await getConfig();
+<<<<<<< HEAD
   const apiSites = await getAvailableApiSites(authInfo.username);
+=======
+  let apiSites = await getAvailableApiSites(authInfo.username);
+
+  const shouldFilterAdult = resolveAdultFilter(
+    searchParams,
+    config.SiteConfig.DisableYellowFilter
+  );
+
+  if (shouldFilterAdult) {
+    apiSites = apiSites.filter((site) => !site.is_adult);
+  }
+>>>>>>> upstream/main
 
   try {
     // 根据 resourceId 查找对应的 API 站点
@@ -45,13 +62,26 @@ export async function GET(request: NextRequest) {
           error: `未找到指定的视频源: ${resourceId}`,
           result: null,
         },
+<<<<<<< HEAD
         { status: 404 }
+=======
+        {
+          status: 404,
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type, Cookie',
+            'X-Adult-Filter': shouldFilterAdult ? 'enabled' : 'disabled',
+          },
+        }
+>>>>>>> upstream/main
       );
     }
 
     const results = await searchFromApi(targetSite, query);
     let result = results.filter((r) => r.title === query);
 
+<<<<<<< HEAD
     // 成人内容过滤
     if (!config.SiteConfig.DisableYellowFilter) {
       result = result.filter((r) => {
@@ -61,6 +91,14 @@ export async function GET(request: NextRequest) {
           return false;
         }
         // 检查分类名称关键词
+=======
+    if (shouldFilterAdult) {
+      result = result.filter((r) => {
+        const typeName = r.type_name || '';
+        if (targetSite.is_adult) {
+          return false;
+        }
+>>>>>>> upstream/main
         return !yellowWords.some((word: string) => typeName.includes(word));
       });
     }
@@ -78,6 +116,10 @@ export async function GET(request: NextRequest) {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, OPTIONS',
             'Access-Control-Allow-Headers': 'Content-Type, Cookie',
+<<<<<<< HEAD
+=======
+            'X-Adult-Filter': shouldFilterAdult ? 'enabled' : 'disabled',
+>>>>>>> upstream/main
           },
         }
       );
@@ -93,6 +135,10 @@ export async function GET(request: NextRequest) {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, OPTIONS',
             'Access-Control-Allow-Headers': 'Content-Type, Cookie',
+<<<<<<< HEAD
+=======
+            'X-Adult-Filter': shouldFilterAdult ? 'enabled' : 'disabled',
+>>>>>>> upstream/main
           },
         }
       );
@@ -109,6 +155,10 @@ export async function GET(request: NextRequest) {
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Methods': 'GET, OPTIONS',
           'Access-Control-Allow-Headers': 'Content-Type, Cookie',
+<<<<<<< HEAD
+=======
+          'X-Adult-Filter': shouldFilterAdult ? 'enabled' : 'disabled',
+>>>>>>> upstream/main
         },
       }
     );

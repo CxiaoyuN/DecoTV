@@ -9,6 +9,31 @@ import { yellowWords } from '@/lib/yellow';
 
 export const runtime = 'nodejs';
 
+<<<<<<< HEAD
+=======
+const normalizedYellowWords = yellowWords.map((word) => word.toLowerCase());
+
+const containsYellowKeyword = (
+  ...fields: Array<string | undefined | null>
+): boolean => {
+  return fields.some((field) => {
+    if (!field) return false;
+    const normalized = field.toLowerCase();
+    return normalizedYellowWords.some((keyword) =>
+      normalized.includes(keyword)
+    );
+  });
+};
+
+function isOrionClient(request: NextRequest): boolean {
+  const ua = (request.headers.get('user-agent') || '').toLowerCase();
+  const client = (
+    new URL(request.url).searchParams.get('client') || ''
+  ).toLowerCase();
+  return ua.includes('orion') || client === 'orion' || client === 'oriontv';
+}
+
+>>>>>>> upstream/main
 /**
  * TVBox 智能搜索代理端点
  *
@@ -33,7 +58,12 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const sourceKey = searchParams.get('source');
     const query = searchParams.get('wd');
+<<<<<<< HEAD
     const filterParam = searchParams.get('filter') || 'on';
+=======
+    const filterRaw = searchParams.get('filter');
+    const filterParam = (filterRaw ?? 'on').toLowerCase();
+>>>>>>> upstream/main
     const strictMode = searchParams.get('strict') === '1';
 
     // 参数验证
@@ -49,7 +79,23 @@ export async function GET(request: NextRequest) {
     }
 
     const config = await getConfig();
+<<<<<<< HEAD
     const shouldFilter = filterParam === 'on' || filterParam === 'enable';
+=======
+    const adultSourceKeys = new Set(
+      config.SourceConfig.filter((s) => s.is_adult).map((s) => s.key)
+    );
+    const adultSourceNames = new Set(
+      config.SourceConfig.filter((s) => s.is_adult && s.name).map((s) =>
+        s.name.trim().toLowerCase()
+      )
+    );
+    const siteDefaultFilter = true; // 站点默认开启成人过滤
+    const shouldFilter =
+      ['on', 'enable', '1', 'true', 'yes'].includes(filterParam) ||
+      (filterRaw == null && siteDefaultFilter);
+    const isOrion = isOrionClient(request);
+>>>>>>> upstream/main
 
     // 查找视频源配置
     const targetSource = config.SourceConfig.find((s) => s.key === sourceKey);
@@ -77,9 +123,44 @@ export async function GET(request: NextRequest) {
     }
 
     console.log(
+<<<<<<< HEAD
       `[TVBox Search Proxy] source=${sourceKey}, query="${query}", filter=${filterParam}, strict=${strictMode}`
     );
 
+=======
+      `[TVBox Search Proxy] source=${sourceKey}, query="${query}", filter=${filterParam}, strict=${strictMode}, client=${
+        isOrion ? 'orion' : 'generic'
+      }`
+    );
+
+    if (shouldFilter && targetSource.is_adult) {
+      console.warn(
+        `[TVBox Search Proxy] source=${sourceKey} blocked by adult policy`
+      );
+      return NextResponse.json(
+        {
+          code: 1,
+          msg: '该视频源已被成人内容过滤策略禁用',
+          page: 1,
+          pagecount: 1,
+          limit: 0,
+          total: 0,
+          list: [],
+        },
+        {
+          status: 200,
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Cache-Control': 'public, max-age=60, s-maxage=60',
+            'X-Filter-Applied': 'true',
+          },
+        }
+      );
+    }
+
+>>>>>>> upstream/main
     // 从上游API搜索
     let results = await searchFromApi(
       {
@@ -95,12 +176,17 @@ export async function GET(request: NextRequest) {
       `[TVBox Search Proxy] Fetched ${results.length} results from upstream`
     );
 
+<<<<<<< HEAD
     // 🔒 成人内容过滤
+=======
+    // 🔒 成人内容过滤（Orion 客户端下更严格）
+>>>>>>> upstream/main
     if (shouldFilter) {
       const beforeFilterCount = results.length;
 
       results = results.filter((result) => {
         const typeName = result.type_name || '';
+<<<<<<< HEAD
 
         // 1. 检查源是否标记为成人资源
         if (targetSource.is_adult) {
@@ -109,6 +195,24 @@ export async function GET(request: NextRequest) {
 
         // 2. 检查分类名称是否包含敏感关键词
         if (yellowWords.some((word: string) => typeName.includes(word))) {
+=======
+        const title = result.title || '';
+        const desc = result.desc || '';
+        const srcName = result.source_name || '';
+        const srcKey = result.source || '';
+
+        const matchedAdultSource =
+          targetSource.is_adult ||
+          adultSourceKeys.has(srcKey) ||
+          adultSourceNames.has(srcName.trim().toLowerCase());
+
+        if (matchedAdultSource) {
+          return false;
+        }
+
+        // 关键词拦截：扩大到 type_name/title/desc/source_name
+        if (containsYellowKeyword(typeName, title, desc, srcName)) {
+>>>>>>> upstream/main
           return false;
         }
 

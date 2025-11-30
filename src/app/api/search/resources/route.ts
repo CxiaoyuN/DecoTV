@@ -2,6 +2,10 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 
+<<<<<<< HEAD
+=======
+import { resolveAdultFilter } from '@/lib/adult-filter';
+>>>>>>> upstream/main
 import { getAuthInfoFromCookie } from '@/lib/auth';
 import { getAvailableApiSites, getConfig } from '@/lib/config';
 
@@ -19,6 +23,7 @@ export async function GET(request: NextRequest) {
     const config = await getAvailableApiSites(authInfo.username);
     const globalConfig = await getConfig();
 
+<<<<<<< HEAD
     let apiSites = config;
 
     // 🔒 成人内容过滤逻辑
@@ -43,6 +48,16 @@ export async function GET(request: NextRequest) {
     if (shouldFilterAdult) {
       apiSites = apiSites.filter((site) => !site.is_adult);
     }
+=======
+    const shouldFilterAdult = resolveAdultFilter(
+      searchParams,
+      globalConfig.SiteConfig.DisableYellowFilter
+    );
+
+    const apiSites = shouldFilterAdult
+      ? config.filter((site) => !site.is_adult)
+      : config;
+>>>>>>> upstream/main
 
     return NextResponse.json(apiSites, {
       headers: {

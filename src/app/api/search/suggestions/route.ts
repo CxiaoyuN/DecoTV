@@ -4,11 +4,19 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { AdminConfig } from '@/lib/admin.types';
 import { getAuthInfoFromCookie } from '@/lib/auth';
+<<<<<<< HEAD
+=======
+import { toSimplified } from '@/lib/chinese';
+>>>>>>> upstream/main
 import { getAvailableApiSites, getConfig } from '@/lib/config';
 import { searchFromApi } from '@/lib/downstream';
 import { yellowWords } from '@/lib/yellow';
 
 export const runtime = 'nodejs';
+<<<<<<< HEAD
+=======
+export const dynamic = 'force-dynamic'; // 强制动态渲染，避免构建时静态生成报错
+>>>>>>> upstream/main
 
 export async function GET(request: NextRequest) {
   try {
@@ -26,10 +34,25 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ suggestions: [] });
     }
 
+<<<<<<< HEAD
     // 生成建议
     const suggestions = await generateSuggestions(
       config,
       query,
+=======
+    // 繁体转简体
+    let normalizedQuery = query;
+    try {
+      normalizedQuery = await toSimplified(query);
+    } catch (e) {
+      console.warn('繁体转简体失败', e);
+    }
+
+    // 生成建议
+    const suggestions = await generateSuggestions(
+      config,
+      normalizedQuery,
+>>>>>>> upstream/main
       authInfo.username
     );
 
