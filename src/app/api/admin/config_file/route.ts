@@ -1,4 +1,4 @@
-/* eslint-disable no-console,@typescript-eslint/no-explicit-any */
+/* eslint-disable no-console */
 
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -10,12 +10,19 @@ export const runtime = 'nodejs';
 
 export async function POST(request: NextRequest) {
   const storageType = process.env.NEXT_PUBLIC_STORAGE_TYPE || 'localstorage';
-  if (storageType === 'localstorage') {
+  const hasRedis = !!(process.env.REDIS_URL || process.env.KV_REST_API_URL);
+  const isLocalMode = storageType === 'localstorage' && !hasRedis;
+
+  // 🔐 本地模式（无数据库）：跳过认证，返回成功
+  // 安全性说明：仅当没有配置任何数据库时才启用此模式
+  if (isLocalMode) {
     return NextResponse.json(
       {
-        error: '不支持本地存储进行管理员配置',
+        ok: true,
+        storageMode: 'local',
+        message: '请在前端保存配置到 localStorage',
       },
-      { status: 400 }
+      { headers: { 'Cache-Control': 'no-store' } },
     );
   }
 
@@ -33,7 +40,7 @@ export async function POST(request: NextRequest) {
     if (username !== process.env.USERNAME) {
       return NextResponse.json(
         { error: '权限不足，只有站长可以修改配置文件' },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -45,7 +52,7 @@ export async function POST(request: NextRequest) {
     if (configFile !== undefined && typeof configFile !== 'string') {
       return NextResponse.json(
         { error: '配置文件内容格式错误' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -53,10 +60,10 @@ export async function POST(request: NextRequest) {
     if (configFile && configFile.trim()) {
       try {
         JSON.parse(configFile);
-      } catch (e) {
+      } catch {
         return NextResponse.json(
           { error: '配置文件格式错误，请检查 JSON 语法' },
-          { status: 400 }
+          { status: 400 },
         );
       }
     }
@@ -64,7 +71,7 @@ export async function POST(request: NextRequest) {
     // 如果配置文件被清空，删除所有 from='config' 的视频源（保留 from='custom'）
     if (!configFile || !configFile.trim()) {
       adminConfig.SourceConfig = adminConfig.SourceConfig.filter(
-        (source) => source.from === 'custom'
+        (source) => source.from === 'custom',
       );
       console.log('配置文件已清空，已删除所有系统预设视频源，保留自定义源');
     }
@@ -101,7 +108,7 @@ export async function POST(request: NextRequest) {
         error: '更新配置文件失败',
         details: (error as Error).message,
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

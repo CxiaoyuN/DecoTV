@@ -11,6 +11,54 @@ export interface ChangelogEntry {
 
 export const changelog: ChangelogEntry[] = [
   {
+    version: '1.0.0',
+    date: '2025-12-28',
+    added: [
+      '🎉 首个正式稳定版本 (Stable Release)',
+      '🏠 混合存储策略: 无 Redis 时自动降级为浏览器 localStorage',
+      '🌐 CMS 全量代理: 解决 Mixed Content 和 CORS 问题，User-Agent 伪装防拦截',
+      '🛡️ 纵深防御: Config 白名单 + Proxy Firewall 双重熔断机制',
+      '🎬 FilterBar 多行布局: Flex-Wrap 自动换行，PC 端信息展示更高效',
+      '⚡ 自动选中首分类: 切换视频源后立即加载内容',
+    ],
+    changed: [
+      '⚙️ 框架升级: Next.js 16.1.0 + React 19 + Turbopack',
+      '📦 CMS 代理切换为 Node.js Runtime，提升 HTTP 兼容性',
+      '🎨 DoubanSelector 重写为卡片式多行布局，移除横向滚动',
+      '🔄 所有外部 URL 统一走 /api/proxy/cms 代理',
+    ],
+    fixed: [
+      '🔐 修复 Admin 面板本地模式 Unauthorized 鉴权问题',
+      '💛 修复 DndContext 嵌套导致的 SSR Hydration 崩溃',
+      '📊 修复切换视频源后分类栏为空的问题',
+      '🛰️ 修复 HTTPS 页面加载 HTTP 图片失败 (wsrv.nl 代理)',
+      '🔇 修复 DoubanSelector 无限重渲染性能问题',
+      '🔒 修复 OrionTV 客户端缓存导致的隐私泄露问题',
+    ],
+  },
+  {
+    version: '0.9.0',
+    date: '2025-12-20',
+    added: [
+      '⬆️ 重大升级: Next.js 14 → 16.1.0，获得更好的性能与 React 19 支持',
+      '⬆️ 重大升级: Tailwind CSS 3.4 → 4.1.18，使用新的 CSS 原生配置方式',
+      '⬆️ React 18 → 19.0.0，支持最新的 React 特性与自动优化',
+      '⬆️ TypeScript 4.9 → 5.8.3，获得更好的类型检查与语言特性',
+      '⬆️ ESLint 8 → 9.28.0，迁移到新的 flat config 格式',
+      '⬆️ Jest 27 → 29.7.0，支持最新的测试特性',
+      '⬆️ Prettier 2 → 3.5.3，支持最新的代码格式化规则',
+    ],
+    changed: [
+      '🎨 优化亮色模式下的文字可读性，修复导航栏按钮文字过淡的问题',
+      '🎨 优化播放页详情区域的文字对比度，移除透明度使用明确颜色',
+      '🎨 修复亮色模式下灰色色板对比度不足的问题',
+      '🔧 Tailwind 配置迁移到 CSS 原生 `@theme` 指令',
+      '🔧 启用 Next.js Turbopack 构建模式，提升开发体验',
+      '🎨 更新 Tailwind CSS 类名为规范写法（bg-gradient → bg-linear 等）',
+    ],
+    fixed: ['🐛 修复亮色模式下影片卡片标题和来源名称显示不清晰的问题'],
+  },
+  {
     version: '0.8.0',
     date: '2025-12-12',
     added: [

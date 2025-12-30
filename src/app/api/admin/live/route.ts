@@ -10,6 +10,23 @@ import { deleteCachedLiveChannels, refreshLiveChannels } from '@/lib/live';
 export const runtime = 'nodejs';
 
 export async function POST(request: NextRequest) {
+  const storageType = process.env.NEXT_PUBLIC_STORAGE_TYPE || 'localstorage';
+  const hasRedis = !!(process.env.REDIS_URL || process.env.KV_REST_API_URL);
+  const isLocalMode = storageType === 'localstorage' && !hasRedis;
+
+  // 🔐 本地模式（无数据库）：跳过认证，返回成功
+  // 安全性说明：仅当没有配置任何数据库时才启用此模式
+  if (isLocalMode) {
+    return NextResponse.json(
+      {
+        ok: true,
+        storageMode: 'local',
+        message: '请在前端保存配置到 localStorage',
+      },
+      { headers: { 'Cache-Control': 'no-store' } },
+    );
+  }
+
   try {
     // 权限检查
     const authInfo = getAuthInfoFromCookie(request);
@@ -17,9 +34,7 @@ export async function POST(request: NextRequest) {
     const config = await getConfig();
     if (username !== process.env.USERNAME) {
       // 管理员
-      const user = config.UserConfig.Users.find(
-        (u) => u.username === username
-      );
+      const user = config.UserConfig.Users.find((u) => u.username === username);
       if (!user || user.role !== 'admin' || user.banned) {
         return NextResponse.json({ error: '权限不足' }, { status: 401 });
       }
@@ -41,7 +56,10 @@ export async function POST(request: NextRequest) {
       case 'add':
         // 检查是否已存在相同的 key
         if (config.LiveConfig.some((l) => l.key === key)) {
-          return NextResponse.json({ error: '直播源 key 已存在' }, { status: 400 });
+          return NextResponse.json(
+            { error: '直播源 key 已存在' },
+            { status: 400 },
+          );
         }
 
         const liveInfo = {
@@ -53,7 +71,7 @@ export async function POST(request: NextRequest) {
           from: 'custom' as 'custom' | 'config',
           channelNumber: 0,
           disabled: false,
-        }
+        };
 
         try {
           const nums = await refreshLiveChannels(liveInfo);
@@ -76,7 +94,10 @@ export async function POST(request: NextRequest) {
 
         const liveSource = config.LiveConfig[deleteIndex];
         if (liveSource.from === 'config') {
-          return NextResponse.json({ error: '不能删除配置文件中的直播源' }, { status: 400 });
+          return NextResponse.json(
+            { error: '不能删除配置文件中的直播源' },
+            { status: 400 },
+          );
         }
 
         deleteCachedLiveChannels(key);
@@ -111,7 +132,10 @@ export async function POST(request: NextRequest) {
 
         // 配置文件中的直播源不允许编辑
         if (editSource.from === 'config') {
-          return NextResponse.json({ error: '不能编辑配置文件中的直播源' }, { status: 400 });
+          return NextResponse.json(
+            { error: '不能编辑配置文件中的直播源' },
+            { status: 400 },
+          );
         }
 
         // 更新字段（除了 key 和 from）
@@ -134,7 +158,10 @@ export async function POST(request: NextRequest) {
         // 排序直播源
         const { order } = body;
         if (!Array.isArray(order)) {
-          return NextResponse.json({ error: '排序数据格式错误' }, { status: 400 });
+          return NextResponse.json(
+            { error: '排序数据格式错误' },
+            { status: 400 },
+          );
         }
 
         // 创建新的排序后的数组
@@ -167,7 +194,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       { error: error instanceof Error ? error.message : '操作失败' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

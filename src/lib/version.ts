@@ -4,12 +4,12 @@
  */
 
 // 版本常量
-const CURRENT_SEMANTIC_VERSION = '0.8.0';
+const CURRENT_SEMANTIC_VERSION = '1.0.0';
 export const CURRENT_VERSION = CURRENT_SEMANTIC_VERSION;
 
 // 硬编码的构建时间戳（每次发布时更新）
 // 这是最后的回退值，确保即使所有文件读取都失败也能有一个基准
-export const BUILD_TIMESTAMP = '20251215235531';
+export const BUILD_TIMESTAMP = '20251228114335';
 
 const DEFAULT_UPDATE_REPO = 'Decohererk/DecoTV';
 const UPDATE_REPO = process.env.NEXT_PUBLIC_UPDATE_REPO || DEFAULT_UPDATE_REPO;
@@ -54,7 +54,7 @@ function appendCacheBuster(url: string): string {
 
 export async function fetchPlainTextWithTimeout(
   url: string,
-  accept = 'text/plain'
+  accept = 'text/plain',
 ): Promise<string | null> {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), REMOTE_FETCH_TIMEOUT);
@@ -75,7 +75,7 @@ export async function fetchPlainTextWithTimeout(
     }
 
     return (await response.text()).trim();
-  } catch (error) {
+  } catch {
     return null;
   } finally {
     clearTimeout(timeoutId);
@@ -176,7 +176,7 @@ export async function getCurrentVersionInfo(): Promise<VersionInfo> {
       updateAvailable: false, // 将在 checkForUpdates 中更新
       displayVersion: `v${CURRENT_VERSION}`,
     };
-  } catch (error) {
+  } catch {
     // 降级处理：使用 VERSION.txt 的默认值
     const timestamp = '20251212140536';
     return {
@@ -281,7 +281,7 @@ export async function checkForUpdates(currentTimestamp: string): Promise<{
     return {
       hasUpdate: false,
     };
-  } catch (error) {
+  } catch {
     // 标记检查失败
     return {
       hasUpdate: false,
